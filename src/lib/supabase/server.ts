@@ -18,10 +18,11 @@ export async function createClientServer() {
               cookieStore.set(name, value, options)
             )
           } catch {
-            // ignore server component error
+            // Ignora erros quando chamado de Server Component
           }
         },
-      }
+      },
     }
   )
 }
+
