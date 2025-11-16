@@ -45,17 +45,25 @@ export default function NewProjectPage() {
   })
 
   useEffect(() => {
-  loadClients()
-}, [])
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+    getUser()
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      loadClients()
+    }
+  }, [user])
 
   const loadClients = async () => {
     try {
       const { data, error } = await supabase
         .from('clients')
         .select('*')
-        .order('name', { ascending: true })
-// remover completamente o filtro
-
+        .eq('user_id', user.id)
         .order('name', { ascending: true })
 
       if (!error && data) {
